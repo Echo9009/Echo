@@ -1,0 +1,22 @@
+[package]
+name = "quicvpn"
+version = "0.1.0"
+edition = "2021"
+authors = ["QUIC VPN"]
+description = "A scalable QUIC VPN optimized for gaming"
+
+[workspace]
+members = [
+    "common",
+    "client",
+    "server",
+]
+
+[dependencies]
+common = { path = "./common" }
+
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = 3
+debug = false 
