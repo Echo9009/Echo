@@ -2,6 +2,46 @@
 
 A scalable, high-performance VPN built with QUIC protocol, specifically optimized for gaming. This VPN solution features a Windows client and Linux server.
 
+## Quick Installation
+
+To install QUIC VPN Server, run the following command on your Linux server:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Echo9009/Echo/main/scripts/easy_install_en.sh | sudo bash
+```
+
+Or if you prefer to download and verify the script first:
+
+```bash
+# Download the installation script
+wget https://raw.githubusercontent.com/Echo9009/Echo/main/scripts/easy_install_en.sh
+
+# Make it executable
+chmod +x easy_install_en.sh
+
+# Run the script
+sudo ./easy_install_en.sh
+```
+
+The installation script provides an interactive menu with the following options:
+1. Install QUIC VPN Server
+2. Manage Users
+3. Manage Server
+4. View Status
+5. Uninstall QUIC VPN
+6. Exit
+
+### Uninstalling
+
+If you need to uninstall QUIC VPN or start fresh, you can either:
+
+1. Use the installation script's uninstall option (Option 5)
+2. Or run the uninstall command directly:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Echo9009/Echo/main/scripts/easy_install_en.sh | sudo bash -s uninstall
+```
+
 ## Features
 
 - **QUIC Protocol**: Built on top of UDP with modern congestion control algorithms
@@ -106,41 +146,20 @@ MIT
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Easy Installation
-
-To quickly install QUIC VPN Server on your Linux system, run the following command:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/Echo9009/Echo/main/scripts/easy_install_en.sh | sudo bash
-```
-
-This will download and run the installation script which will guide you through the setup process.
-
-## Installation Features
-
-The easy installation script provides:
-
-- One-click server installation
-- User management (add/remove users)
-- Client configuration generation
-- Server management (start/stop/restart)
-- Status monitoring
-- Easy uninstallation option
-
-## Manual Installation
-
-For manual installation instructions, please refer to the [server setup documentation](docs/04-server-setup.md).
-
-## Client Setup
-
-After installing the server and creating users, you can download client configuration files and set up clients as described in the [client setup documentation](docs/05-client-setup.md).
-
 ## Documentation
 
+For detailed documentation, please refer to the following sections:
 - [Server Setup](docs/04-server-setup.md)
 - [Client Setup](docs/05-client-setup.md)
 - [Gaming Optimizations](docs/07-gaming-optimizations.md)
-- [Security](docs/08-security.md)
+- [Security Features](docs/08-security.md)
 - [Troubleshooting](docs/09-troubleshooting.md)
-- [Development](docs/10-development.md)
-- [Appendix](docs/11-appendix.md) 
+- [Development Guide](docs/10-development.md)
+- [Appendix](docs/11-appendix.md)
+
+## Support
+
+If you encounter any issues or need assistance:
+1. Check the [Troubleshooting Guide](docs/09-troubleshooting.md)
+2. Open an issue on GitHub
+3. Contact support through our official channels 
