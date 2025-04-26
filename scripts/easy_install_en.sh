@@ -51,47 +51,59 @@ show_menu() {
     echo "6) Exit"
     echo ""
     
-    # Clear any buffered input
-    if [ -t 0 ]; then
-        # Only try to clear stdin if we have a terminal
-        while read -t 0.1 -n 1; do : ; done
-    fi
-    
-    # Read a single character
-    read -r -p "Enter your choice [1-6]: " choice
-    echo ""
-    
-    # Debugging
-    echo "You selected: '${choice}'"
-    
-    case "${choice}" in
-        1|"1") 
-            install_server 
-            ;;
-        2|"2") 
-            user_management_menu 
-            ;;
-        3|"3") 
-            server_management_menu 
-            ;;
-        4|"4") 
-            show_status 
-            ;;
-        5|"5") 
-            uninstall_server 
-            ;;
-        6|"6") 
-            echo "Exiting..."
-            exit 0 
-            ;;
-        *) 
-            echo -e "${RED}Invalid option! Please enter a number between 1 and 6.${NC}"
-            sleep 1
-            clear
-            print_banner
-            show_menu 
-            ;;
-    esac
+    local choice=""
+    while true; do
+        # Clear any buffered input
+        if [ -t 0 ]; then
+            # Only try to clear stdin if we have a terminal
+            while read -t 0.1 -n 1 discard; do : ; done
+        fi
+        
+        # Read a single character
+        read -r -n 1 -p "Enter your choice [1-6]: " choice
+        echo ""
+        
+        # Debugging
+        # echo "You selected: '${choice}'"
+        
+        # Check if input is empty (e.g., just Enter pressed or issue with pipe)
+        if [[ -z "${choice}" ]]; then
+            echo -e "${YELLOW}Please enter a number.${NC}" 
+            continue # Ask again
+        fi
+
+        case "${choice}" in
+            1|"1") 
+                install_server 
+                break
+                ;;
+            2|"2") 
+                user_management_menu 
+                break
+                ;;
+            3|"3") 
+                server_management_menu 
+                break
+                ;;
+            4|"4") 
+                show_status 
+                break
+                ;;
+            5|"5") 
+                uninstall_server 
+                break
+                ;;
+            6|"6") 
+                echo "Exiting..."
+                exit 0 
+                ;;
+            *) 
+                echo -e "${RED}Invalid option! Please enter a number between 1 and 6.${NC}"
+                sleep 1 
+                # Loop continues
+                ;;
+        esac
+    done
 }
 
 # User management menu
@@ -106,39 +118,51 @@ user_management_menu() {
     echo "5) Return to Main Menu"
     echo ""
     
-    # Clear any buffered input
-    if [ -t 0 ]; then
-        # Only try to clear stdin if we have a terminal
-        while read -t 0.1 -n 1; do : ; done
-    fi
-    
-    read -r -p "Enter your choice [1-5]: " choice
-    echo ""
-    
-    case "${choice}" in
-        1|"1") 
-            add_user 
-            ;;
-        2|"2") 
-            remove_user 
-            ;;
-        3|"3") 
-            list_users 
-            ;;
-        4|"4") 
-            generate_client_config 
-            ;;
-        5|"5") 
-            clear 
-            print_banner 
-            show_menu 
-            ;;
-        *) 
-            echo -e "${RED}Invalid option! Please enter a number between 1 and 5.${NC}"
-            sleep 1
-            user_management_menu 
-            ;;
-    esac
+    local choice=""
+    while true; do
+        # Clear any buffered input
+        if [ -t 0 ]; then
+            while read -t 0.1 -n 1 discard; do : ; done
+        fi
+        
+        read -r -n 1 -p "Enter your choice [1-5]: " choice
+        echo ""
+        
+        if [[ -z "${choice}" ]]; then
+            echo -e "${YELLOW}Please enter a number.${NC}" 
+            continue
+        fi
+
+        case "${choice}" in
+            1|"1") 
+                add_user 
+                break 
+                ;;
+            2|"2") 
+                remove_user 
+                break 
+                ;;
+            3|"3") 
+                list_users 
+                break 
+                ;;
+            4|"4") 
+                generate_client_config 
+                break 
+                ;;
+            5|"5") 
+                clear 
+                print_banner 
+                show_menu 
+                break 
+                ;;
+            *) 
+                echo -e "${RED}Invalid option! Please enter a number between 1 and 5.${NC}"
+                sleep 1
+                # Loop continues
+                ;;
+        esac
+    done
 }
 
 # Server management menu
@@ -153,39 +177,51 @@ server_management_menu() {
     echo "5) Return to Main Menu"
     echo ""
     
-    # Clear any buffered input
-    if [ -t 0 ]; then
-        # Only try to clear stdin if we have a terminal
-        while read -t 0.1 -n 1; do : ; done
-    fi
-    
-    read -r -p "Enter your choice [1-5]: " choice
-    echo ""
-    
-    case "${choice}" in
-        1|"1") 
-            start_server 
-            ;;
-        2|"2") 
-            stop_server 
-            ;;
-        3|"3") 
-            restart_server 
-            ;;
-        4|"4") 
-            show_logs 
-            ;;
-        5|"5") 
-            clear 
-            print_banner 
-            show_menu 
-            ;;
-        *) 
-            echo -e "${RED}Invalid option! Please enter a number between 1 and 5.${NC}"
-            sleep 1
-            server_management_menu 
-            ;;
-    esac
+    local choice=""
+    while true; do
+        # Clear any buffered input
+        if [ -t 0 ]; then
+            while read -t 0.1 -n 1 discard; do : ; done
+        fi
+        
+        read -r -n 1 -p "Enter your choice [1-5]: " choice
+        echo ""
+        
+        if [[ -z "${choice}" ]]; then
+            echo -e "${YELLOW}Please enter a number.${NC}" 
+            continue
+        fi
+
+        case "${choice}" in
+            1|"1") 
+                start_server 
+                break 
+                ;;
+            2|"2") 
+                stop_server 
+                break 
+                ;;
+            3|"3") 
+                restart_server 
+                break 
+                ;;
+            4|"4") 
+                show_logs 
+                break 
+                ;;
+            5|"5") 
+                clear 
+                print_banner 
+                show_menu 
+                break 
+                ;;
+            *) 
+                echo -e "${RED}Invalid option! Please enter a number between 1 and 5.${NC}"
+                sleep 1
+                # Loop continues
+                ;;
+        esac
+    done
 }
 
 # Install dependencies
