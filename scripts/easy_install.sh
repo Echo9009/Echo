@@ -114,9 +114,9 @@ install_dependencies() {
     # تشخیص نوع توزیع
     if [[ -f /etc/debian_version ]]; then
         apt update
-        apt install -y curl wget tar jq openssl
+        apt install -y curl wget tar jq openssl git build-essential
     elif [[ -f /etc/redhat-release ]]; then
-        yum install -y curl wget tar jq openssl
+        yum install -y curl wget tar jq openssl git gcc make
     else
         echo -e "${RED}توزیع لینوکس شما پشتیبانی نمی‌شود.${NC}"
         exit 1
@@ -129,9 +129,68 @@ install_dependencies() {
 download_and_install_binary() {
     echo -e "${BLUE}در حال دانلود و نصب QUIC VPN...${NC}"
     
-    # در یک پروژه واقعی، اینجا باید از URL دانلود واقعی استفاده شود
-    # برای این نمونه، فقط نمایش داده می‌شود
-    echo "دانلود از repository..."
+    # دانلود از GitHub
+    echo -e "${YELLOW}دانلود از GitHub: https://github.com/Echo9009/Echo.git${NC}"
+    
+    # ایجاد دایرکتوری موقت
+    TMP_DIR=$(mktemp -d)
+    echo -e "دایرکتوری موقت: ${TMP_DIR}"
+    
+    # کلون کردن مخزن
+    git clone https://github.com/Echo9009/Echo.git "${TMP_DIR}/quicvpn"
+    if [[ $? -ne 0 ]]; then
+        echo -e "${RED}خطا در دانلود کد منبع. لطفاً اتصال اینترنت خود را بررسی کنید.${NC}"
+        exit 1
+    fi
+    
+    # ورود به دایرکتوری پروژه
+    cd "${TMP_DIR}/quicvpn"
+    
+    # ساخت پروژه (اگر Rust است)
+    echo -e "${BLUE}در حال ساخت پروژه...${NC}"
+    
+    # بررسی وجود فایل Cargo.toml برای پروژه‌های Rust
+    if [[ -f "Cargo.toml" ]]; then
+        # نصب Rust اگر نصب نشده باشد
+        if ! command -v cargo &> /dev/null; then
+            echo -e "${YELLOW}Rust یافت نشد. در حال نصب Rust...${NC}"
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+            source "$HOME/.cargo/env"
+        fi
+        
+        # ساخت در حالت انتشار
+        cargo build --release
+        
+        # کپی باینری سرور به مسیر نصب
+        if [[ -f "target/release/quicvpn-server" ]]; then
+            cp "target/release/quicvpn-server" "${SERVER_BIN}"
+        elif [[ -f "target/release/server" ]]; then
+            cp "target/release/server" "${SERVER_BIN}"
+        else
+            echo -e "${RED}فایل باینری سرور یافت نشد. لطفاً مطمئن شوید که پروژه به درستی ساخته شده است.${NC}"
+            exit 1
+        fi
+    else
+        # اگر پروژه Rust نیست، فرض می‌کنیم که باینری آماده دارد
+        echo -e "${YELLOW}فایل Cargo.toml یافت نشد. تلاش برای یافتن باینری آماده...${NC}"
+        
+        # جستجوی باینری در دایرکتوری‌های مختلف
+        FOUND_BIN=$(find . -type f -name "quicvpn-server" -o -name "server" | head -n 1)
+        
+        if [[ -n "${FOUND_BIN}" ]]; then
+            cp "${FOUND_BIN}" "${SERVER_BIN}"
+        else
+            echo -e "${RED}باینری سرور در مخزن یافت نشد.${NC}"
+            exit 1
+        fi
+    fi
+    
+    # اعطای مجوز اجرا به باینری
+    chmod +x "${SERVER_BIN}"
+    
+    # پاکسازی
+    cd -
+    rm -rf "${TMP_DIR}"
     
     # ایجاد دایرکتوری نصب
     mkdir -p ${SERVER_CONFIG_DIR}
