@@ -52,13 +52,13 @@ show_menu() {
     echo ""
     read -p "Enter your choice [1-6]: " choice
     
-    case $choice in
-        1) install_server ;;
-        2) user_management_menu ;;
-        3) server_management_menu ;;
-        4) show_status ;;
-        5) uninstall_server ;;
-        6) exit 0 ;;
+    case "$choice" in
+        "1") install_server ;;
+        "2") user_management_menu ;;
+        "3") server_management_menu ;;
+        "4") show_status ;;
+        "5") uninstall_server ;;
+        "6") exit 0 ;;
         *) echo -e "${RED}Invalid option!${NC}" && show_menu ;;
     esac
 }
@@ -76,12 +76,12 @@ user_management_menu() {
     echo ""
     read -p "Enter your choice [1-5]: " choice
     
-    case $choice in
-        1) add_user ;;
-        2) remove_user ;;
-        3) list_users ;;
-        4) generate_client_config ;;
-        5) clear && print_banner && show_menu ;;
+    case "$choice" in
+        "1") add_user ;;
+        "2") remove_user ;;
+        "3") list_users ;;
+        "4") generate_client_config ;;
+        "5") clear && print_banner && show_menu ;;
         *) echo -e "${RED}Invalid option!${NC}" && user_management_menu ;;
     esac
 }
@@ -99,12 +99,12 @@ server_management_menu() {
     echo ""
     read -p "Enter your choice [1-5]: " choice
     
-    case $choice in
-        1) start_server ;;
-        2) stop_server ;;
-        3) restart_server ;;
-        4) show_logs ;;
-        5) clear && print_banner && show_menu ;;
+    case "$choice" in
+        "1") start_server ;;
+        "2") stop_server ;;
+        "3") restart_server ;;
+        "4") show_logs ;;
+        "5") clear && print_banner && show_menu ;;
         *) echo -e "${RED}Invalid option!${NC}" && server_management_menu ;;
     esac
 }
