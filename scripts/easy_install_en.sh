@@ -50,16 +50,47 @@ show_menu() {
     echo "5) Uninstall QUIC VPN"
     echo "6) Exit"
     echo ""
-    read -p "Enter your choice [1-6]: " choice
     
-    case "$choice" in
-        "1") install_server ;;
-        "2") user_management_menu ;;
-        "3") server_management_menu ;;
-        "4") show_status ;;
-        "5") uninstall_server ;;
-        "6") exit 0 ;;
-        *) echo -e "${RED}Invalid option!${NC}" && show_menu ;;
+    # Clear any buffered input
+    if [ -t 0 ]; then
+        # Only try to clear stdin if we have a terminal
+        while read -t 0.1 -n 1; do : ; done
+    fi
+    
+    # Read a single character
+    read -r -p "Enter your choice [1-6]: " choice
+    echo ""
+    
+    # Debugging
+    echo "You selected: '${choice}'"
+    
+    case "${choice}" in
+        1|"1") 
+            install_server 
+            ;;
+        2|"2") 
+            user_management_menu 
+            ;;
+        3|"3") 
+            server_management_menu 
+            ;;
+        4|"4") 
+            show_status 
+            ;;
+        5|"5") 
+            uninstall_server 
+            ;;
+        6|"6") 
+            echo "Exiting..."
+            exit 0 
+            ;;
+        *) 
+            echo -e "${RED}Invalid option! Please enter a number between 1 and 6.${NC}"
+            sleep 1
+            clear
+            print_banner
+            show_menu 
+            ;;
     esac
 }
 
@@ -74,15 +105,39 @@ user_management_menu() {
     echo "4) Generate Client Config"
     echo "5) Return to Main Menu"
     echo ""
-    read -p "Enter your choice [1-5]: " choice
     
-    case "$choice" in
-        "1") add_user ;;
-        "2") remove_user ;;
-        "3") list_users ;;
-        "4") generate_client_config ;;
-        "5") clear && print_banner && show_menu ;;
-        *) echo -e "${RED}Invalid option!${NC}" && user_management_menu ;;
+    # Clear any buffered input
+    if [ -t 0 ]; then
+        # Only try to clear stdin if we have a terminal
+        while read -t 0.1 -n 1; do : ; done
+    fi
+    
+    read -r -p "Enter your choice [1-5]: " choice
+    echo ""
+    
+    case "${choice}" in
+        1|"1") 
+            add_user 
+            ;;
+        2|"2") 
+            remove_user 
+            ;;
+        3|"3") 
+            list_users 
+            ;;
+        4|"4") 
+            generate_client_config 
+            ;;
+        5|"5") 
+            clear 
+            print_banner 
+            show_menu 
+            ;;
+        *) 
+            echo -e "${RED}Invalid option! Please enter a number between 1 and 5.${NC}"
+            sleep 1
+            user_management_menu 
+            ;;
     esac
 }
 
@@ -97,15 +152,39 @@ server_management_menu() {
     echo "4) View Server Logs"
     echo "5) Return to Main Menu"
     echo ""
-    read -p "Enter your choice [1-5]: " choice
     
-    case "$choice" in
-        "1") start_server ;;
-        "2") stop_server ;;
-        "3") restart_server ;;
-        "4") show_logs ;;
-        "5") clear && print_banner && show_menu ;;
-        *) echo -e "${RED}Invalid option!${NC}" && server_management_menu ;;
+    # Clear any buffered input
+    if [ -t 0 ]; then
+        # Only try to clear stdin if we have a terminal
+        while read -t 0.1 -n 1; do : ; done
+    fi
+    
+    read -r -p "Enter your choice [1-5]: " choice
+    echo ""
+    
+    case "${choice}" in
+        1|"1") 
+            start_server 
+            ;;
+        2|"2") 
+            stop_server 
+            ;;
+        3|"3") 
+            restart_server 
+            ;;
+        4|"4") 
+            show_logs 
+            ;;
+        5|"5") 
+            clear 
+            print_banner 
+            show_menu 
+            ;;
+        *) 
+            echo -e "${RED}Invalid option! Please enter a number between 1 and 5.${NC}"
+            sleep 1
+            server_management_menu 
+            ;;
     esac
 }
 
