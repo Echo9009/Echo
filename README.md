@@ -104,4 +104,43 @@ MIT
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request. 
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Easy Installation
+
+To quickly install QUIC VPN Server on your Linux system, run the following command:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Echo9009/Echo/main/scripts/easy_install_en.sh | sudo bash
+```
+
+This will download and run the installation script which will guide you through the setup process.
+
+## Installation Features
+
+The easy installation script provides:
+
+- One-click server installation
+- User management (add/remove users)
+- Client configuration generation
+- Server management (start/stop/restart)
+- Status monitoring
+- Easy uninstallation option
+
+## Manual Installation
+
+For manual installation instructions, please refer to the [server setup documentation](docs/04-server-setup.md).
+
+## Client Setup
+
+After installing the server and creating users, you can download client configuration files and set up clients as described in the [client setup documentation](docs/05-client-setup.md).
+
+## Documentation
+
+- [Server Setup](docs/04-server-setup.md)
+- [Client Setup](docs/05-client-setup.md)
+- [Gaming Optimizations](docs/07-gaming-optimizations.md)
+- [Security](docs/08-security.md)
+- [Troubleshooting](docs/09-troubleshooting.md)
+- [Development](docs/10-development.md)
+- [Appendix](docs/11-appendix.md) 
